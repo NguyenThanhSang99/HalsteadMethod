@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Form));
             this.button_choose_files = new System.Windows.Forms.Button();
             this.button_analyse = new System.Windows.Forms.Button();
             this.textBox_result = new System.Windows.Forms.TextBox();
@@ -45,6 +46,7 @@
             this.button_choose_files.TabIndex = 17;
             this.button_choose_files.Text = "Chọn files";
             this.button_choose_files.UseVisualStyleBackColor = false;
+            this.button_choose_files.Click += new System.EventHandler(this.button_choose_files_Click);
             // 
             // button_analyse
             // 
@@ -55,6 +57,7 @@
             this.button_analyse.TabIndex = 16;
             this.button_analyse.Text = "Phân tích";
             this.button_analyse.UseVisualStyleBackColor = false;
+            this.button_analyse.Click += new System.EventHandler(this.button_analyse_Click);
             // 
             // textBox_result
             // 
@@ -73,6 +76,7 @@
             this.button_select_folder.TabIndex = 14;
             this.button_select_folder.Text = "Chọn folder";
             this.button_select_folder.UseVisualStyleBackColor = false;
+            this.button_select_folder.Click += new System.EventHandler(this.button_select_folder_Click);
             // 
             // textBox_path
             // 
@@ -105,6 +109,7 @@
             this.Controls.Add(this.button_select_folder);
             this.Controls.Add(this.textBox_path);
             this.Controls.Add(this.label_tiltle);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main_Form";
             this.Text = "Phương pháp Halstead";
             this.ResumeLayout(false);
