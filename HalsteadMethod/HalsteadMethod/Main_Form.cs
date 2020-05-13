@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HalsteadMethod.Business;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -77,6 +78,21 @@ namespace HalsteadMethod
             catch (Exception err)
             {
                 Debug.Print(err.ToString());
+            }
+        }
+
+        private void button_view_operands_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string path = files[0];
+                CalculateOperand calculateOperand = new CalculateOperand(path);
+                Operand_Form operand_Form = new Operand_Form(calculateOperand.List_operand);
+                operand_Form.Show();
+            }
+            catch
+            {
+                MessageBox.Show("Không có files để xem!!!");
             }
         }
     }

@@ -35,6 +35,7 @@
             this.button_select_folder = new System.Windows.Forms.Button();
             this.textBox_path = new System.Windows.Forms.TextBox();
             this.label_tiltle = new System.Windows.Forms.Label();
+            this.button_view_operands = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_choose_files
@@ -97,12 +98,25 @@
             this.label_tiltle.TabIndex = 12;
             this.label_tiltle.Text = "PHƯƠNG PHÁP HALSTEAD";
             // 
+            // button_view_operands
+            // 
+            this.button_view_operands.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.button_view_operands.ForeColor = System.Drawing.Color.White;
+            this.button_view_operands.Location = new System.Drawing.Point(514, 149);
+            this.button_view_operands.Name = "button_view_operands";
+            this.button_view_operands.Size = new System.Drawing.Size(105, 31);
+            this.button_view_operands.TabIndex = 18;
+            this.button_view_operands.Text = "Xem toán hạng";
+            this.button_view_operands.UseVisualStyleBackColor = false;
+            this.button_view_operands.Click += new System.EventHandler(this.button_view_operands_Click);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(678, 450);
+            this.Controls.Add(this.button_view_operands);
             this.Controls.Add(this.button_choose_files);
             this.Controls.Add(this.button_analyse);
             this.Controls.Add(this.textBox_result);
@@ -125,6 +139,7 @@
         private System.Windows.Forms.Button button_select_folder;
         private System.Windows.Forms.TextBox textBox_path;
         private System.Windows.Forms.Label label_tiltle;
+        private System.Windows.Forms.Button button_view_operands;
     }
 }
 
