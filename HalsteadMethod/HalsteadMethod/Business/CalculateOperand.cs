@@ -9,7 +9,8 @@ namespace HalsteadMethod.Business
         private string path;
         Dictionary<string, int> list_operand;
         string[] exception = { "{", "}", "Main()", "string", "int", "static", "bool", "=", "==", ";", "(", ")", "void"
-                , "class", "Program", "[STAThread]", "return", "float", "double", "var", "char", "bit", ";"};
+                , "class", "Program", "[STAThread]", "return", "float", "double", "var", "char", "bit", ":", "", "[", "]"
+                ,"for", "if"};
         Dictionary<string, string> exception_dictionary;
 
         public CalculateOperand(string path)
@@ -97,7 +98,7 @@ namespace HalsteadMethod.Business
                         String case_string = "";
                         foreach (string str in dataInLine)
                         {
-                            if (!exception_dictionary.ContainsKey(str) && !str.Contains("()"))
+                            if (!exception_dictionary.ContainsKey(str))
                             {
                                 if (str.Contains("\"") || case_string != "")
                                 {
@@ -109,13 +110,7 @@ namespace HalsteadMethod.Business
                                     }
                                     continue;
                                 }
-
-                                if (str.Contains(","))
-                                {
-                                    AddOperandWithSpecialChar(str, ',');
-                                    continue;
-                                }
-
+                                
                                 if (str.Contains("["))
                                 {
                                     AddOperandWithArray(str);
@@ -136,10 +131,83 @@ namespace HalsteadMethod.Business
 
         private void AddOperand(string operand)
         {
-            if (operand == "")
+            if (exception_dictionary.ContainsKey(operand) || operand == null)
             {
                 return;
             }
+
+            if (operand.Contains(","))
+            {
+                AddOperandWithSpecialChar(operand, ',');
+                return;
+            }
+
+            if (operand.Contains("."))
+            {
+                AddOperandWithSpecialChar(operand, '.');
+                return;
+            }
+
+            if (operand.Contains("("))
+            {
+                AddOperandWithSpecialChar(operand, '(');
+                return;
+            }
+
+            if (operand.Contains(")"))
+            {
+                AddOperandWithSpecialChar(operand, ')');
+                return;
+            }
+
+            if (operand.Contains(";"))
+            {
+                AddOperandWithSpecialChar(operand, ';');
+                return;
+            }
+
+            if (operand.Contains("<"))
+            {
+                AddOperandWithSpecialChar(operand, '<');
+                return;
+            }
+
+            if (operand.Contains(">"))
+            {
+                AddOperandWithSpecialChar(operand, '>');
+                return;
+            }
+
+            if (operand.Contains("="))
+            {
+                AddOperandWithSpecialChar(operand, '=');
+                return;
+            }
+
+            if (operand.Contains("+"))
+            {
+                AddOperandWithSpecialChar(operand, '+');
+                return;
+            }
+
+            if (operand.Contains("-"))
+            {
+                AddOperandWithSpecialChar(operand, '-');
+                return;
+            }
+
+            if (operand.Contains("*"))
+            {
+                AddOperandWithSpecialChar(operand, '*');
+                return;
+            }
+
+            if (operand.Contains("/"))
+            {
+                AddOperandWithSpecialChar(operand, '/');
+                return;
+            }
+
             if (!List_operand.ContainsKey(operand))
             {
                 List_operand.Add(operand, 1);
