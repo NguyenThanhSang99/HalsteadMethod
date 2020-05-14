@@ -8,9 +8,11 @@ namespace HalsteadMethod.Business
     {
         private string path;
         Dictionary<string, int> list_operand;
-        string[] exception = { "{", "}", "Main()", "string", "int", "static", "bool", "=", "==", ";", "(", ")", "void"
-                , "class", "Program", "[STAThread]", "return", "float", "double", "var", "char", "bit", ":", "", "[", "]"
-                ,"for", "if"};
+        string[] exception = { "Main()", "string", "int", "static", "bool", "void", "class", "Program"
+                , "[STAThread]", "return", "float", "double", "var", "char", "bit", "", "for", "if"
+                , "private", "public", "protected" };
+        char[] special_char = { '+', '-', '*', '/', '.', ',', ';', '[', ']', '{', '}', '(', ')', '?', '<', '>'
+                , '=', '!', '#', '@', '$', '%', '^', '&', ':', '\\' };
         Dictionary<string, string> exception_dictionary;
 
         public CalculateOperand(string path)
@@ -110,12 +112,6 @@ namespace HalsteadMethod.Business
                                     }
                                     continue;
                                 }
-                                
-                                if (str.Contains("["))
-                                {
-                                    AddOperandWithArray(str);
-                                    continue;
-                                }
 
                                 this.AddOperand(str);
                             }
@@ -136,76 +132,13 @@ namespace HalsteadMethod.Business
                 return;
             }
 
-            if (operand.Contains(","))
+            foreach(char ch in special_char)
             {
-                AddOperandWithSpecialChar(operand, ',');
-                return;
-            }
-
-            if (operand.Contains("."))
-            {
-                AddOperandWithSpecialChar(operand, '.');
-                return;
-            }
-
-            if (operand.Contains("("))
-            {
-                AddOperandWithSpecialChar(operand, '(');
-                return;
-            }
-
-            if (operand.Contains(")"))
-            {
-                AddOperandWithSpecialChar(operand, ')');
-                return;
-            }
-
-            if (operand.Contains(";"))
-            {
-                AddOperandWithSpecialChar(operand, ';');
-                return;
-            }
-
-            if (operand.Contains("<"))
-            {
-                AddOperandWithSpecialChar(operand, '<');
-                return;
-            }
-
-            if (operand.Contains(">"))
-            {
-                AddOperandWithSpecialChar(operand, '>');
-                return;
-            }
-
-            if (operand.Contains("="))
-            {
-                AddOperandWithSpecialChar(operand, '=');
-                return;
-            }
-
-            if (operand.Contains("+"))
-            {
-                AddOperandWithSpecialChar(operand, '+');
-                return;
-            }
-
-            if (operand.Contains("-"))
-            {
-                AddOperandWithSpecialChar(operand, '-');
-                return;
-            }
-
-            if (operand.Contains("*"))
-            {
-                AddOperandWithSpecialChar(operand, '*');
-                return;
-            }
-
-            if (operand.Contains("/"))
-            {
-                AddOperandWithSpecialChar(operand, '/');
-                return;
+                if (operand.Contains(ch))
+                {
+                    AddOperandWithSpecialChar(operand, ch);
+                    return;
+                }
             }
 
             if (!List_operand.ContainsKey(operand))
@@ -215,15 +148,6 @@ namespace HalsteadMethod.Business
             else
             {
                 List_operand[operand] += 1;
-            }
-        }
-
-        private void AddOperandWithArray(string str)
-        {
-            string[] split_str = str.Split('[', ']');
-            foreach (string s in split_str)
-            {
-                AddOperand(s);
             }
         }
 
