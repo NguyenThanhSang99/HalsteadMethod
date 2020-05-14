@@ -9,9 +9,11 @@ namespace HalsteadMethod
     public partial class Operand_Form : Form
     {
         private Dictionary<string, int> operand_dictionary;
-        public Operand_Form(Dictionary<string, int> operands)
+        private int sum_operand;
+        public Operand_Form(Dictionary<string, int> operands, int sum)
         {
             this.operand_dictionary = operands;
+            this.sum_operand = sum;
             InitializeComponent();
         }
 
@@ -29,6 +31,11 @@ namespace HalsteadMethod
                     row.Cells[1].Value = item.Value;
                     dataGridView1.Rows.Add(row);
                 }
+
+                DataGridViewRow row_total = (DataGridViewRow)dataGridView1.Rows[0].Clone();
+                row_total.Cells[0].Value = "Total operands";
+                row_total.Cells[1].Value = this.sum_operand;
+                dataGridView1.Rows.Add(row_total);
             }
             catch (Exception ex)
             {

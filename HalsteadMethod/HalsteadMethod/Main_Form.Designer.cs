@@ -67,6 +67,8 @@
             this.textBox_result.Name = "textBox_result";
             this.textBox_result.Size = new System.Drawing.Size(559, 230);
             this.textBox_result.TabIndex = 15;
+            this.textBox_result.DragDrop += new System.Windows.Forms.DragEventHandler(this.textBox_result_DragDrop);
+            this.textBox_result.DragEnter += new System.Windows.Forms.DragEventHandler(this.textBox_result_DragEnter);
             // 
             // button_select_folder
             // 
@@ -126,6 +128,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main_Form";
             this.Text = "Phương pháp Halstead";
+            this.Load += new System.EventHandler(this.Main_Form_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

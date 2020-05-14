@@ -9,7 +9,7 @@ namespace HalsteadMethod.Business
         private string path;
         Dictionary<string, int> list_operand;
         string[] exception = { "{", "}", "Main()", "string", "int", "static", "bool", "=", "==", ";", "(", ")", "void"
-                , "class", "Program", "[STAThread]"};
+                , "class", "Program", "[STAThread]", "return", "float", "double", "var", "char", "bit", ";"};
         Dictionary<string, string> exception_dictionary;
 
         public CalculateOperand(string path)
@@ -93,30 +93,97 @@ namespace HalsteadMethod.Business
                     }
                     if (begin)
                     {
-                        
                         string[] dataInLine = data.Split(' ');
-
+                        String case_string = "";
                         foreach (string str in dataInLine)
                         {
-                            if (!exception_dictionary.ContainsKey(str) && !str.Contains('.'))
+                            if (!exception_dictionary.ContainsKey(str) && !str.Contains("()"))
                             {
-                                if (!List_operand.ContainsKey(str))
+                                if (str.Contains("\"") || case_string != "")
                                 {
-                                    List_operand.Add(str, 1);
+                                    case_string += str;
+                                    if (CountCharacterInString(case_string, '"') == 2)
+                                    {
+                                        AddOperand("String");
+                                        case_string = "";
+                                    }
+                                    continue;
                                 }
-                                else
+
+                                if (str.Contains(","))
                                 {
-                                    List_operand[str] += 1;
+                                    AddOperandWithSpecialChar(str, ',');
+                                    continue;
                                 }
+
+                                if (str.Contains("["))
+                                {
+                                    AddOperandWithArray(str);
+                                    continue;
+                                }
+
+                                this.AddOperand(str);
                             }
                         }
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
+        }
+
+        private void AddOperand(string operand)
+        {
+            if (operand == "")
+            {
+                return;
+            }
+            if (!List_operand.ContainsKey(operand))
+            {
+                List_operand.Add(operand, 1);
+            }
+            else
+            {
+                List_operand[operand] += 1;
+            }
+        }
+
+        private void AddOperandWithArray(string str)
+        {
+            string[] split_str = str.Split('[', ']');
+            foreach (string s in split_str)
+            {
+                AddOperand(s);
+            }
+        }
+
+        private void AddOperandWithSpecialChar(string str, char ch)
+        {
+            string[] split_str = str.Split(ch);
+            foreach (string s in split_str)
+            {
+                AddOperand(s);
+            }
+        }
+
+        private int CountCharacterInString(String str, char ch)
+        {
+            int count = 0;
+            foreach (char c in str)
+                if (c == ch) count++;
+            return count;
+        }
+
+        public int Total()
+        {
+            int sum = 0;
+            foreach (KeyValuePair<string, int> item in list_operand)
+            {
+                sum += item.Value;
+            }
+            return sum;
         }
     }
 }

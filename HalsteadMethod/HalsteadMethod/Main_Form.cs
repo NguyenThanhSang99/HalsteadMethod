@@ -87,13 +87,46 @@ namespace HalsteadMethod
             {
                 string path = files[0];
                 CalculateOperand calculateOperand = new CalculateOperand(path);
-                Operand_Form operand_Form = new Operand_Form(calculateOperand.List_operand);
+                Operand_Form operand_Form = new Operand_Form(calculateOperand.List_operand, calculateOperand.Total());
                 operand_Form.Show();
             }
             catch
             {
                 MessageBox.Show("Không có files để xem!!!");
             }
+        }
+
+        private void textBox_result_DragDrop(object sender, DragEventArgs e)
+        {
+            var data = e.Data.GetData(DataFormats.FileDrop);
+            if (data != null)
+            {
+                var fileNames = data as string[];
+                if (fileNames.Length > 0)
+                {
+                    try
+                    {
+                        this.textBox_path.Text = fileNames[0];
+                        this.files = fileNames;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("File không đúng định dạng, vui lòng chọn file khác!!!");
+                        Debug.Print(ex.ToString());
+                    }
+                }
+            }
+        }
+
+        private void textBox_result_DragEnter(object sender, DragEventArgs e)
+        {
+            // Cho phép thả file vào textbox
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Main_Form_Load(object sender, EventArgs e)
+        {
+            this.textBox_result.AllowDrop = true;
         }
     }
 }
