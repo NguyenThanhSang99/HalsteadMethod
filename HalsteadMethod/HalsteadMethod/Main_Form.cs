@@ -1,5 +1,6 @@
 ﻿using HalsteadMethod.Business;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -10,8 +11,10 @@ namespace HalsteadMethod
     {
         //Array to save path of cs files
         private String[] files;
+        private Dictionary<string, int> list_operand;
         public Main_Form()
         {
+            this.list_operand = new Dictionary<string, int>();
             files = null;
             InitializeComponent();
         }
@@ -86,8 +89,9 @@ namespace HalsteadMethod
             try
             {
                 string path = files[0];
-                CalculateOperand calculateOperand = new CalculateOperand(path);
-                Operand_Form operand_Form = new Operand_Form(calculateOperand.List_operand, calculateOperand.Total());
+                CalculateOperand calculateOperand = new CalculateOperand(path, list_operand);
+                this.list_operand = calculateOperand.List_operand;
+                Operand_Form operand_Form = new Operand_Form(list_operand, calculateOperand.Total());
                 operand_Form.Show();
             }
             catch

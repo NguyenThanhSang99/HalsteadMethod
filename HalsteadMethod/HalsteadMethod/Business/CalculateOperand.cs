@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace HalsteadMethod.Business
 {
@@ -8,18 +11,16 @@ namespace HalsteadMethod.Business
     {
         private string path;
         Dictionary<string, int> list_operand;
-        string[] exception = { "Main()", "string", "int", "static", "bool", "void", "class", "Program"
-                , "[STAThread]", "return", "float", "double", "var", "char", "bit", "", "for", "if"
-                , "private", "public", "protected" };
         char[] special_char = { '+', '-', '*', '/', '.', ',', ';', '[', ']', '{', '}', '(', ')', '?', '<', '>'
                 , '=', '!', '#', '@', '$', '%', '^', '&', ':', '\\' };
-        Dictionary<string, string> exception_dictionary;
+        Dictionary<string, string> exception_dictionary = new Dictionary<string, string>();
 
-        public CalculateOperand(string path)
+        public CalculateOperand(string path, Dictionary<string, int> operands)
         {
             this.path = path;
-            this.List_operand = new Dictionary<string, int>();
-            exception_dictionary = exception.ToDictionary(key => key, value => value);
+            Debug.Print(System.IO.Path.GetFullPath(@"..\..\"));
+            this.UpdateDictionary(Path.Combine(System.IO.Path.GetFullPath(@"..\..\"), @"Business\key_word.txt"));
+            this.List_operand = operands;
             this.Analyze();
         }
 
@@ -71,6 +72,11 @@ namespace HalsteadMethod.Business
                         if (data[0] == '/')
                         {
                             continue;
+                        }
+                        else
+                        {
+                            string[] spl_string = data.Split('/');
+                            data = spl_string[0];
                         }
                     }
                     //Check if if that's the begin of the comment block
@@ -176,6 +182,21 @@ namespace HalsteadMethod.Business
                 sum += item.Value;
             }
             return sum;
+        }
+
+        private void UpdateDictionary(string path)
+        {
+            string[] lines = System.IO.File.ReadAllLines(path);
+            exception_dictionary.Add("","");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string key = lines[i].Trim();
+                //Cut off the leading space
+                if (!exception_dictionary.ContainsKey(key))
+                {
+                    exception_dictionary.Add(key, key);
+                }
+            }
         }
     }
 }
