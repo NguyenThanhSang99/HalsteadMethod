@@ -1,4 +1,6 @@
 ﻿using HalsteadMethod.Business;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -181,6 +183,126 @@ namespace HalsteadMethod
             catch (Exception)
             {
                 MessageBox.Show("Không có files để xem!!!");
+            }
+        }
+
+        private void ExportToPDF(DataGridView dataGridView1, DataGridView dataGridView2)
+        {
+            if (dataGridView1.Rows.Count > 0)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "PDF (*.pdf)|*.pdf";
+                sfd.FileName = "Output.pdf";
+                bool fileError = false;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(sfd.FileName))
+                    {
+                        try
+                        {
+                            File.Delete(sfd.FileName);
+                        }
+                        catch (IOException ex)
+                        {
+                            fileError = true;
+                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                        }
+                    }
+                    if (!fileError)
+                    {
+                        try
+                        {
+                            /* Add table operators to pdf */
+                            PdfPTable pdfTableOperator = new PdfPTable(dataGridView1.Columns.Count);
+                            pdfTableOperator.DefaultCell.Padding = 3;
+                            pdfTableOperator.WidthPercentage = 100;
+                            pdfTableOperator.HorizontalAlignment = Element.ALIGN_LEFT;
+
+                            foreach (DataGridViewColumn column in dataGridView1.Columns)
+                            {
+                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                pdfTableOperator.AddCell(cell);
+                            }
+
+                            foreach (DataGridViewRow row in dataGridView1.Rows)
+                            {
+                                foreach (DataGridViewCell cell in row.Cells)
+                                {
+                                    if (cell != null && cell.Value != null)
+                                    {
+                                        pdfTableOperator.AddCell(cell.Value.ToString());
+                                    }
+                                }
+                            }
+                            /* End create operators table*/
+
+                            /* Add table operands to pdf */
+                            PdfPTable pdfTableOperands = new PdfPTable(dataGridView2.Columns.Count);
+                            pdfTableOperands.DefaultCell.Padding = 3;
+                            pdfTableOperands.WidthPercentage = 100;
+                            pdfTableOperands.HorizontalAlignment = Element.ALIGN_LEFT;
+
+                            foreach (DataGridViewColumn column in dataGridView2.Columns)
+                            {
+                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                pdfTableOperands.AddCell(cell);
+                            }
+
+                            foreach (DataGridViewRow row in dataGridView2.Rows)
+                            {
+                                foreach (DataGridViewCell cell in row.Cells)
+                                {
+                                    if (cell != null && cell.Value != null) { 
+                                        pdfTableOperands.AddCell(cell.Value.ToString());
+                                    }
+                                }
+                            }
+                            /* End create operands table*/
+
+                            using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create))
+                            {
+                                Document pdfDoc = new Document(PageSize.A4, 10f, 20f, 20f, 10f);
+                                PdfWriter.GetInstance(pdfDoc, stream);
+                                pdfDoc.Open();
+                                pdfDoc.Add(new Paragraph("HALSTEAD METHOD"));
+                                pdfDoc.Add(new Paragraph("I. Count operators: "));
+                                pdfDoc.Add(new Paragraph(" "));
+                                pdfDoc.Add(pdfTableOperator);
+                                pdfDoc.Add(new Paragraph("II. Count operands: "));
+                                pdfDoc.Add(new Paragraph(" "));
+                                pdfDoc.Add(pdfTableOperands);
+                                pdfDoc.Add(new Paragraph("III. Result: \n"));
+                                pdfDoc.Add(new Paragraph(this.textBox_result.Text));
+                                pdfDoc.Close();
+                                stream.Close();
+                            }
+
+                            MessageBox.Show("Data Exported Successfully !!!", "Info");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error :" + ex.Message);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Record To Export !!!", "Info");
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Operand_Form operand_Form = new Operand_Form(list_operand, analyseHalsteadMethod.TotalOperands);
+                Operator_Form operator_Form = new Operator_Form(list_operator, analyseHalsteadMethod.TotalOperators);
+                ExportToPDF(operator_Form.LoadData(), operand_Form.LoadData());
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Lỗi. Vui lòng thử lại sau!!!");
             }
         }
     }

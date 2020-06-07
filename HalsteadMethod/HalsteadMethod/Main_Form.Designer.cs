@@ -36,6 +36,7 @@
             this.label_tiltle = new System.Windows.Forms.Label();
             this.button_view_operands = new System.Windows.Forms.Button();
             this.button_operators = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button_choose_files
@@ -111,9 +112,21 @@
             this.button_operators.Name = "button_operators";
             this.button_operators.Size = new System.Drawing.Size(105, 31);
             this.button_operators.TabIndex = 19;
-            this.button_operators.Text = "Xem toán hạng";
+            this.button_operators.Text = "Xem toán tử";
             this.button_operators.UseVisualStyleBackColor = false;
             this.button_operators.Click += new System.EventHandler(this.button_operators_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Green;
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(378, 501);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(105, 31);
+            this.button1.TabIndex = 21;
+            this.button1.Text = "Export to pdf";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Main_Form
             // 
@@ -121,6 +134,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(870, 555);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.button_operators);
             this.Controls.Add(this.button_view_operands);
             this.Controls.Add(this.button_choose_files);
@@ -146,6 +160,7 @@
         private System.Windows.Forms.Label label_tiltle;
         private System.Windows.Forms.Button button_view_operands;
         private System.Windows.Forms.Button button_operators;
+        private System.Windows.Forms.Button button1;
     }
 }
 

@@ -24,6 +24,11 @@ namespace HalsteadMethod
 
         private void Operator_Form_Load(object sender, EventArgs e)
         {
+            this.LoadData();
+        }
+
+        public DataGridView LoadData()
+        {
             try
             {
                 //Xóa hết dữ liệu hiện tại trong datagridview
@@ -46,6 +51,7 @@ namespace HalsteadMethod
             {
                 Debug.Print(ex.ToString());
             }
+            return this.dataGridView_operators;
         }
 
         private void Operator_Form_FormClosing(object sender, FormClosingEventArgs e)

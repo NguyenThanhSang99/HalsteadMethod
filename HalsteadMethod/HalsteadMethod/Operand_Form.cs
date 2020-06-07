@@ -1,6 +1,9 @@
-﻿using System;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -18,6 +21,11 @@ namespace HalsteadMethod
         }
 
         private void Operand_Form_Load(object sender, System.EventArgs e)
+        {
+            this.LoadData();
+        }
+
+        public DataGridView LoadData()
         {
             try
             {
@@ -41,6 +49,7 @@ namespace HalsteadMethod
             {
                 Debug.Print(ex.ToString());
             }
+            return this.dataGridView1;
         }
 
         private void Operand_Form_FormClosing(object sender, FormClosingEventArgs e)
