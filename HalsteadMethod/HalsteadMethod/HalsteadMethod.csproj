@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\AnalyseHalsteadMethod.cs" />
     <Compile Include="Business\CalculateOperand.cs" />
+    <Compile Include="Business\CalculateOperator.cs" />
     <Compile Include="Main_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +61,12 @@
     <Compile Include="Operand_Form.Designer.cs">
       <DependentUpon>Operand_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Operator_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Operator_Form.Designer.cs">
+      <DependentUpon>Operator_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Main_Form.resx">
@@ -66,6 +74,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Operand_Form.resx">
       <DependentUpon>Operand_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Operator_Form.resx">
+      <DependentUpon>Operator_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

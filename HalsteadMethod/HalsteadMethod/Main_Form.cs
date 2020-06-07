@@ -12,9 +12,14 @@ namespace HalsteadMethod
         //Array to save path of cs files
         private String[] files;
         private Dictionary<string, int> list_operand;
+        private Dictionary<string, int> list_operator;
+        private AnalyseHalsteadMethod analyseHalsteadMethod;
+
         public Main_Form()
         {
             this.list_operand = new Dictionary<string, int>();
+            this.list_operator = new Dictionary<string, int>();
+            this.analyseHalsteadMethod = new AnalyseHalsteadMethod(list_operator, list_operand);
             files = null;
             InitializeComponent();
         }
@@ -42,6 +47,7 @@ namespace HalsteadMethod
                 //If error show it in output
                 Debug.Print(err.ToString());
             }
+            this.Analyse();
         }
         /// <summary>
         /// When user click choose folder, system open dialog to choose folder
@@ -65,36 +71,67 @@ namespace HalsteadMethod
                 //If error show it in output
                 Debug.Print(err.ToString());
             }
+            this.Analyse();
         }
 
-        private void button_analyse_Click(object sender, EventArgs e)
+        private void Analyse()
         {
+            this.list_operand = new Dictionary<string, int>();
+            this.list_operator = new Dictionary<string, int>();
             try
             {
-                String allFiles = "";
                 foreach (String f in files)
                 {
-                    allFiles = allFiles + " " + f + "\r\n";
+                    try
+                    {
+                        CalculateOperator calculateOperator = new CalculateOperator(f, list_operator);
+                        CalculateOperand calculateOperand = new CalculateOperand(f, list_operand);
+
+                        this.list_operator = calculateOperator.List_operator;
+                        this.list_operand = calculateOperand.List_operand;
+
+                        analyseHalsteadMethod = new AnalyseHalsteadMethod(this.list_operator, this.list_operand);
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Lỗi. Làm phiền bạn thử lại sau!!!");
+                    }
                 }
-                this.textBox_result.Text = allFiles;
             }
             catch (Exception err)
             {
                 Debug.Print(err.ToString());
             }
+            ViewResult();
+        }
+
+        private void ViewResult()
+        {
+            String results = "";
+            results += "+ Number of distinct operators in the program(μ1): " + analyseHalsteadMethod.NumberOfOperators;
+            results += "\r\n+ Number of distinct operands in the program(μ1): " + analyseHalsteadMethod.NumberOfOperands;
+            results += "\r\n+ Total number of occurrences of operators in the program(N1): " + analyseHalsteadMethod.TotalOperators;
+            results += "\r\n+ Total number of occurrences of operands in the program(N2): " + analyseHalsteadMethod.TotalOperands;
+            results += "\r\n+ Program vocabulary(μ): " + analyseHalsteadMethod.ProgramVocaburary();
+            results += "\r\n+ Program length(N): " + analyseHalsteadMethod.ProgramLength();
+            results += "\r\n+ Program volume(V): " + analyseHalsteadMethod.ProgramVolume();
+            results += "\r\n+ Program level(L): " + analyseHalsteadMethod.ProgramLevel();
+            results += "\r\n+ Program estimate length: " + analyseHalsteadMethod.ProgramEstimatedLength();
+            results += "\r\n+ Effort: " + analyseHalsteadMethod.CalculateEffort();
+            results += "\r\n+ Time: " + analyseHalsteadMethod.CalculateTime();
+            results += "\r\n+ Remaining Bugs: " + analyseHalsteadMethod.CalculateRemainingBugs();
+
+            this.textBox_result.Text = results;
         }
 
         private void button_view_operands_Click(object sender, EventArgs e)
         {
             try
             {
-                string path = files[0];
-                CalculateOperand calculateOperand = new CalculateOperand(path, list_operand);
-                this.list_operand = calculateOperand.List_operand;
-                Operand_Form operand_Form = new Operand_Form(list_operand, calculateOperand.Total());
+                Operand_Form operand_Form = new Operand_Form(list_operand, analyseHalsteadMethod.TotalOperands);
                 operand_Form.Show();
             }
-            catch
+            catch (Exception)
             {
                 MessageBox.Show("Không có files để xem!!!");
             }
@@ -120,6 +157,7 @@ namespace HalsteadMethod
                     }
                 }
             }
+            this.Analyse();
         }
 
         private void textBox_result_DragEnter(object sender, DragEventArgs e)
@@ -131,6 +169,19 @@ namespace HalsteadMethod
         private void Main_Form_Load(object sender, EventArgs e)
         {
             this.textBox_result.AllowDrop = true;
+        }
+
+        private void button_operators_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Operator_Form operator_Form = new Operator_Form(list_operator, analyseHalsteadMethod.TotalOperators);
+                operator_Form.Show();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Không có files để xem!!!");
+            }
         }
     }
 }

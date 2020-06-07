@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HalsteadMethod.Business
 {
-    public class CalculateOperand
+    class CalculateOperator
     {
         private string path;
-        Dictionary<string, int> list_operand;
-        char[] special_char = { '+', '-', '*', '/', '.', ',', ';', '[', ']', '{', '}', '(', ')', '?', '<', '>'
+        Dictionary<string, int> list_operator;
+        private static String[] list_triple_symbols = { "+++", "---", "<<=", ">>=" };
+        private static String[] list_double_symbols = { "++", "--", "&&", "||", "==", "!=", ">=", "<=", "<<", ">>", "+=", "-+", "*=", "/=", "%=", "^=", "&=", "|=", "?:" };
+        private static char[] list_single_symbols = { '+', '-', '*', '/', '.', ',', ';', '[', ']', '{', '}', '(', ')', '?', '<', '>'
                 , '=', '!', '#', '@', '$', '%', '^', '&', ':', '\\', '|' };
-        Dictionary<string, string> exception_dictionary = new Dictionary<string, string>();
-        public CalculateOperand(Dictionary<string, int> operands)
+        Dictionary<string, string> keyword_dictionary = new Dictionary<string, string>();
+        public CalculateOperator(Dictionary<string, int> operands)
         {
-            this.list_operand = operands;
+            this.list_operator = operands;
         }
-        public CalculateOperand(string path, Dictionary<string, int> operands)
+        public CalculateOperator(string path, Dictionary<string, int> operands)
         {
             this.path = path;
-            Debug.Print(System.IO.Path.GetFullPath(@"..\..\"));
             this.UpdateDictionary(Path.Combine(System.IO.Path.GetFullPath(@"..\..\"), @"Business\key_word.txt"));
-            this.List_operand = operands;
+            this.List_operator = operands;
             this.Analyze();
         }
 
-        public Dictionary<string, int> List_operand { get => list_operand; set => list_operand = value; }
+        public Dictionary<string, int> List_operator { get => list_operator; set => list_operator = value; }
 
         private void Analyze()
         {
@@ -95,25 +97,22 @@ namespace HalsteadMethod.Business
                             continue;
                         }
                     }
-                    string[] dataInLine = data.Split(' ');
-                    String case_string = "";
-                    foreach (string str in dataInLine)
-                    {
-                        if (!exception_dictionary.ContainsKey(str))
-                        {
-                            if (str.Contains("\"") || case_string != "")
-                            {
-                                case_string += str;
-                                if (CountCharacterInString(case_string, '"') == 2)
-                                {
-                                    AddOperand("String");
-                                    case_string = "";
-                                }
-                                continue;
-                            }
 
-                            this.AddOperand(str);
+                    string[] words = data.Split(' ');
+                    String case_string = "";
+                    foreach (string str in words)
+                    {
+                        if (str.Contains("\"") || case_string != "")
+                        {
+                            case_string += str;
+                            if (CountCharacterInString(case_string, '"') == 2)
+                            {
+                                case_string = "";
+                            }
+                            continue;
                         }
+                        
+                        AddOperators(str);
                     }
                 }
             }
@@ -122,39 +121,70 @@ namespace HalsteadMethod.Business
                 throw e;
             }
         }
-
-        private void AddOperand(string operand)
+        private void AddOperators(string operand)
         {
-            if (exception_dictionary.ContainsKey(operand) || operand == null)
+            if (operand == null || operand == "")
             {
                 return;
             }
-
-            foreach(char ch in special_char)
+            foreach (string str in list_triple_symbols)
+            {
+                if (operand.Contains(str))
+                {
+                    AddOperandWithSpecialChar(operand, str);
+                    return;
+                }
+            }
+            foreach (string str in list_double_symbols)
+            {
+                if (operand.Contains(str))
+                {
+                    AddOperandWithSpecialChar(operand, str);
+                    return;
+                }
+            }
+            foreach (char ch in list_single_symbols)
             {
                 if (operand.Contains(ch))
                 {
-                    AddOperandWithSpecialChar(operand, ch);
+                    AddOperandWithSpecialChar(operand, ch.ToString());
                     return;
                 }
             }
 
-            if (!List_operand.ContainsKey(operand))
+            if (keyword_dictionary.ContainsKey(operand))
             {
-                List_operand.Add(operand, 1);
-            }
-            else
-            {
-                List_operand[operand] += 1;
+                AddOperator(operand, 1);
             }
         }
 
-        private void AddOperandWithSpecialChar(string str, char ch)
+        private void AddOperandWithSpecialChar(string str, string ch)
         {
-            string[] split_str = str.Split(ch);
+            string[] split_str = str.Split(new string[] { ch }, StringSplitOptions.None);
+            switch (ch)
+            {
+                case "(": ch = "()"; break;
+                case ")": return;
+                case "[": ch = "[]"; break;
+                case "]": return;
+                case "{": ch = "{}"; break;
+                case "}": return;
+            }
+            AddOperator(ch.ToString(), split_str.Length-1);
             foreach (string s in split_str)
             {
-                AddOperand(s);
+                AddOperators(s);
+            }
+        }
+        private void AddOperator(string ope, int number)
+        {
+            if (!List_operator.ContainsKey(ope))
+            {
+                List_operator.Add(ope, number);
+            }
+            else
+            {
+                List_operator[ope] += number;
             }
         }
 
@@ -169,14 +199,14 @@ namespace HalsteadMethod.Business
         private void UpdateDictionary(string path)
         {
             string[] lines = System.IO.File.ReadAllLines(path);
-            exception_dictionary.Add("","");
+            keyword_dictionary.Add("", "");
             for (int i = 0; i < lines.Length; i++)
             {
                 string key = lines[i].Trim();
                 //Cut off the leading space
-                if (!exception_dictionary.ContainsKey(key))
+                if (!keyword_dictionary.ContainsKey(key))
                 {
-                    exception_dictionary.Add(key, key);
+                    keyword_dictionary.Add(key, key);
                 }
             }
         }
