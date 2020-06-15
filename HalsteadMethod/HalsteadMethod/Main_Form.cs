@@ -114,17 +114,18 @@ namespace HalsteadMethod
         {
             String results = "";
             results += "+ Number of distinct operators in the program(μ1): " + analyseHalsteadMethod.NumberOfOperators;
-            results += "\r\n+ Number of distinct operands in the program(μ1): " + analyseHalsteadMethod.NumberOfOperands;
+            results += "\r\n+ Number of distinct operands in the program(μ2): " + analyseHalsteadMethod.NumberOfOperands;
             results += "\r\n+ Total number of occurrences of operators in the program(N1): " + analyseHalsteadMethod.TotalOperators;
             results += "\r\n+ Total number of occurrences of operands in the program(N2): " + analyseHalsteadMethod.TotalOperands;
             results += "\r\n+ Program vocabulary(μ): " + analyseHalsteadMethod.ProgramVocaburary();
             results += "\r\n+ Program length(N): " + analyseHalsteadMethod.ProgramLength();
-            results += "\r\n+ Program volume(V): " + analyseHalsteadMethod.ProgramVolume();
-            results += "\r\n+ Program level(L): " + analyseHalsteadMethod.ProgramLevel();
-            results += "\r\n+ Program estimate length: " + analyseHalsteadMethod.ProgramEstimatedLength();
-            results += "\r\n+ Effort: " + analyseHalsteadMethod.CalculateEffort();
-            results += "\r\n+ Time: " + analyseHalsteadMethod.CalculateTime();
-            results += "\r\n+ Remaining Bugs: " + analyseHalsteadMethod.CalculateRemainingBugs();
+            results += "\r\n+ Program volume(V): " + analyseHalsteadMethod.ProgramVolume().ToString("0.#####");
+            results += "\r\n+ Program difficulty(D): " + analyseHalsteadMethod.ProgramDifficulty().ToString("0.#####");
+            results += "\r\n+ Program level(L): " + analyseHalsteadMethod.ProgramLevel().ToString("0.#####");
+            results += "\r\n+ Program estimate length: " + analyseHalsteadMethod.ProgramEstimatedLength().ToString("0.#####");
+            results += "\r\n+ Effort: " + analyseHalsteadMethod.CalculateEffort().ToString("0.#####");
+            results += "\r\n+ Time: " + analyseHalsteadMethod.CalculateTime().ToString("0.#####");
+            results += "\r\n+ Remaining Bugs: " + analyseHalsteadMethod.CalculateRemainingBugs().ToString("0.#####");
 
             this.textBox_result.Text = results;
         }
@@ -187,6 +188,14 @@ namespace HalsteadMethod
             {
                 MessageBox.Show("Không có files để xem!!!");
             }
+        }
+
+        private static Paragraph CreateText(string content, BaseColor color, int size)
+        {
+            iTextSharp.text.Font font = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, size, iTextSharp.text.Font.NORMAL, color);
+            Chunk textChuck = new Chunk(content, font);
+            Paragraph p1 = new Paragraph(textChuck);
+            return p1;
         }
 
         private void ExportToPDF(DataGridView dataGridView1, DataGridView dataGridView2)
@@ -255,7 +264,8 @@ namespace HalsteadMethod
                             {
                                 foreach (DataGridViewCell cell in row.Cells)
                                 {
-                                    if (cell != null && cell.Value != null) { 
+                                    if (cell != null && cell.Value != null)
+                                    {
                                         pdfTableOperands.AddCell(cell.Value.ToString());
                                     }
                                 }
@@ -267,15 +277,23 @@ namespace HalsteadMethod
                                 Document pdfDoc = new Document(PageSize.A4, 10f, 20f, 20f, 10f);
                                 PdfWriter.GetInstance(pdfDoc, stream);
                                 pdfDoc.Open();
-                                pdfDoc.Add(new Paragraph("HALSTEAD METHOD"));
-                                pdfDoc.Add(new Paragraph("I. Count operators: "));
+                                pdfDoc.Add(CreateText("HALSTEAD METHOD", BaseColor.BLUE, 20));
+                                pdfDoc.Add(CreateText("+ List file: ", BaseColor.ORANGE, 18));
+                                foreach (string file in this.files)
+                                {
+                                    string[] file_detail = file.Split('\\');
+                                    pdfDoc.Add(CreateText("   - " + file_detail[file_detail.Length - 1], BaseColor.BLACK, 15));
+                                }
+                                pdfDoc.Add(CreateText("I. Count operators: ", BaseColor.GREEN, 14));
                                 pdfDoc.Add(new Paragraph(" "));
                                 pdfDoc.Add(pdfTableOperator);
-                                pdfDoc.Add(new Paragraph("II. Count operands: "));
+                                pdfDoc.Add(CreateText("II. Count operands: ", BaseColor.GREEN, 14));
                                 pdfDoc.Add(new Paragraph(" "));
                                 pdfDoc.Add(pdfTableOperands);
-                                pdfDoc.Add(new Paragraph("III. Result: \n"));
-                                pdfDoc.Add(new Paragraph(this.textBox_result.Text));
+                                pdfDoc.Add(CreateText("III. Result: ", BaseColor.GREEN, 14));
+                                pdfDoc.Add(CreateText(this.textBox_result.Text, BaseColor.BLACK, 12));
+                                pdfDoc.Add(new Paragraph(" "));
+                                pdfDoc.Add(CreateText("© 2020-Copy Right Sang Nguyen DTU", BaseColor.CYAN, 12));
                                 pdfDoc.Close();
                                 stream.Close();
                             }
