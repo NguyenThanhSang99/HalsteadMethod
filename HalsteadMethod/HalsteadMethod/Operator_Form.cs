@@ -20,6 +20,7 @@ namespace HalsteadMethod
             this.operator_dictionary = operators;
             this.sum_operator = sum;
             InitializeComponent();
+            this.dataGridView_operators.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void Operator_Form_Load(object sender, EventArgs e)

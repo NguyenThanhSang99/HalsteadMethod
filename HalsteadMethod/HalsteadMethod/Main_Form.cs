@@ -82,29 +82,32 @@ namespace HalsteadMethod
             this.list_operator = new Dictionary<string, int>();
             try
             {
-                foreach (String f in files)
+                if (files != null)
                 {
-                    try
+                    foreach (String f in files)
                     {
-                        CalculateOperator calculateOperator = new CalculateOperator(f, list_operator);
-                        CalculateOperand calculateOperand = new CalculateOperand(f, list_operand);
+                        try
+                        {
+                            CalculateOperator calculateOperator = new CalculateOperator(f, list_operator);
+                            CalculateOperand calculateOperand = new CalculateOperand(f, list_operand);
 
-                        this.list_operator = calculateOperator.List_operator;
-                        this.list_operand = calculateOperand.List_operand;
+                            this.list_operator = calculateOperator.List_operator;
+                            this.list_operand = calculateOperand.List_operand;
 
-                        analyseHalsteadMethod = new AnalyseHalsteadMethod(this.list_operator, this.list_operand);
+                            analyseHalsteadMethod = new AnalyseHalsteadMethod(this.list_operator, this.list_operand);
+                        }
+                        catch (Exception)
+                        {
+                            MessageBox.Show("Lỗi. Làm phiền bạn thử lại sau!!!");
+                        }
                     }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Lỗi. Làm phiền bạn thử lại sau!!!");
-                    }
+                    ViewResult();
                 }
             }
             catch (Exception err)
             {
                 Debug.Print(err.ToString());
             }
-            ViewResult();
         }
 
         private void ViewResult()
@@ -304,6 +307,22 @@ namespace HalsteadMethod
             {
                 MessageBox.Show("Lỗi. Vui lòng thử lại sau!!!");
             }
+        }
+
+        private void Minimizar_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+
+        }
+
+        private void Salir_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void Restaurar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -18,6 +18,8 @@ namespace HalsteadMethod
             this.operand_dictionary = operands;
             this.sum_operand = sum;
             InitializeComponent();
+            this.dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
         }
 
         private void Operand_Form_Load(object sender, System.EventArgs e)
