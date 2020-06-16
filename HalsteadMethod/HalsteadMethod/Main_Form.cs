@@ -1,4 +1,5 @@
 ﻿using HalsteadMethod.Business;
+using HalsteadMethod.Exporter;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
@@ -24,6 +25,7 @@ namespace HalsteadMethod
             this.analyseHalsteadMethod = new AnalyseHalsteadMethod(list_operator, list_operand);
             files = null;
             InitializeComponent();
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
         /// <summary>
         /// When user click choose files, system open dialog to choose files
@@ -33,7 +35,7 @@ namespace HalsteadMethod
             try
             {
                 OpenFileDialog chooseFileDialog = new OpenFileDialog();
-                chooseFileDialog.Filter = "cs files (*.cs)|*.cs|All files (*.*)|*.*";
+                chooseFileDialog.Filter = "All files (*.*)|cs files (*.cs)|*.cs|*.*";
                 chooseFileDialog.FilterIndex = 1;
                 chooseFileDialog.Multiselect = true;
 
@@ -322,6 +324,14 @@ namespace HalsteadMethod
 
         private void Restaurar_Click(object sender, EventArgs e)
         {
+
+        }
+        private void btnHtmlWriter_Click(object sender, EventArgs e)
+        {
+            HTMLWriter hTMLWriter = new HTMLWriter();
+            Operand_Form operand_Form = new Operand_Form(list_operand, analyseHalsteadMethod.TotalOperands);
+            Operator_Form operator_Form = new Operator_Form(list_operator, analyseHalsteadMethod.TotalOperators);
+            hTMLWriter.Export(operator_Form.LoadData(), operand_Form.LoadData());
 
         }
     }

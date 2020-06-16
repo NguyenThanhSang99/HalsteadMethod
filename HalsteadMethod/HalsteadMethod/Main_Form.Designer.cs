@@ -42,6 +42,7 @@
             this.Salir = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.MenuSidebar = new System.Windows.Forms.PictureBox();
+            this.btnHtmlWriter = new System.Windows.Forms.Button();
             this.MenuTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Restaurar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Minimizar)).BeginInit();
@@ -51,8 +52,8 @@
             // 
             // textBox_path
             // 
-            this.textBox_path.Location = new System.Drawing.Point(177, 126);
-            this.textBox_path.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_path.Location = new System.Drawing.Point(189, 142);
+            this.textBox_path.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_path.Multiline = true;
             this.textBox_path.Name = "textBox_path";
             this.textBox_path.Size = new System.Drawing.Size(779, 50);
@@ -61,7 +62,7 @@
             // textBox_result
             // 
             this.textBox_result.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_result.Location = new System.Drawing.Point(177, 208);
+            this.textBox_result.Location = new System.Drawing.Point(189, 224);
             this.textBox_result.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_result.Multiline = true;
             this.textBox_result.Name = "textBox_result";
@@ -76,7 +77,7 @@
             this.button_operators.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
             this.button_operators.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_operators.ForeColor = System.Drawing.Color.White;
-            this.button_operators.Location = new System.Drawing.Point(177, 617);
+            this.button_operators.Location = new System.Drawing.Point(189, 633);
             this.button_operators.Margin = new System.Windows.Forms.Padding(4);
             this.button_operators.Name = "button_operators";
             this.button_operators.Size = new System.Drawing.Size(125, 65);
@@ -90,7 +91,7 @@
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(488, 617);
+            this.button1.Location = new System.Drawing.Point(408, 633);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(125, 65);
@@ -104,7 +105,7 @@
             this.button_select_folder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
             this.button_select_folder.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_select_folder.ForeColor = System.Drawing.Color.White;
-            this.button_select_folder.Location = new System.Drawing.Point(1163, 124);
+            this.button_select_folder.Location = new System.Drawing.Point(1175, 140);
             this.button_select_folder.Margin = new System.Windows.Forms.Padding(4);
             this.button_select_folder.Name = "button_select_folder";
             this.button_select_folder.Size = new System.Drawing.Size(100, 52);
@@ -118,7 +119,7 @@
             this.button_choose_files.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
             this.button_choose_files.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_choose_files.ForeColor = System.Drawing.Color.White;
-            this.button_choose_files.Location = new System.Drawing.Point(1016, 124);
+            this.button_choose_files.Location = new System.Drawing.Point(1028, 140);
             this.button_choose_files.Margin = new System.Windows.Forms.Padding(4);
             this.button_choose_files.Name = "button_choose_files";
             this.button_choose_files.Size = new System.Drawing.Size(100, 52);
@@ -132,7 +133,7 @@
             this.button_view_operands.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
             this.button_view_operands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_view_operands.ForeColor = System.Drawing.Color.White;
-            this.button_view_operands.Location = new System.Drawing.Point(831, 617);
+            this.button_view_operands.Location = new System.Drawing.Point(843, 633);
             this.button_view_operands.Margin = new System.Windows.Forms.Padding(4);
             this.button_view_operands.Name = "button_view_operands";
             this.button_view_operands.Size = new System.Drawing.Size(125, 65);
@@ -153,7 +154,7 @@
             this.MenuTop.Location = new System.Drawing.Point(0, 0);
             this.MenuTop.Margin = new System.Windows.Forms.Padding(4);
             this.MenuTop.Name = "MenuTop";
-            this.MenuTop.Size = new System.Drawing.Size(1337, 98);
+            this.MenuTop.Size = new System.Drawing.Size(1337, 91);
             this.MenuTop.TabIndex = 23;
             // 
             // Restaurar
@@ -203,9 +204,9 @@
             this.label1.Location = new System.Drawing.Point(109, 32);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(188, 26);
+            this.label1.Size = new System.Drawing.Size(199, 26);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Halstead Measure";
+            this.label1.Text = "Halstead Measures";
             // 
             // MenuSidebar
             // 
@@ -218,12 +219,27 @@
             this.MenuSidebar.TabIndex = 0;
             this.MenuSidebar.TabStop = false;
             // 
+            // btnHtmlWriter
+            // 
+            this.btnHtmlWriter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(46)))));
+            this.btnHtmlWriter.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnHtmlWriter.ForeColor = System.Drawing.Color.White;
+            this.btnHtmlWriter.Location = new System.Drawing.Point(626, 633);
+            this.btnHtmlWriter.Margin = new System.Windows.Forms.Padding(4);
+            this.btnHtmlWriter.Name = "btnHtmlWriter";
+            this.btnHtmlWriter.Size = new System.Drawing.Size(125, 65);
+            this.btnHtmlWriter.TabIndex = 24;
+            this.btnHtmlWriter.Text = "Xuất file HTML";
+            this.btnHtmlWriter.UseVisualStyleBackColor = false;
+            this.btnHtmlWriter.Click += new System.EventHandler(this.btnHtmlWriter_Click);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1337, 796);
+            this.ClientSize = new System.Drawing.Size(1337, 800);
+            this.Controls.Add(this.btnHtmlWriter);
             this.Controls.Add(this.MenuTop);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button_operators);
@@ -234,7 +250,7 @@
             this.Controls.Add(this.textBox_path);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phương pháp Halstead";
@@ -264,6 +280,7 @@
         private System.Windows.Forms.PictureBox Salir;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox MenuSidebar;
+        private System.Windows.Forms.Button btnHtmlWriter;
     }
 }
 
