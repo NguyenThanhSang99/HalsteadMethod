@@ -77,6 +77,20 @@ namespace HalsteadMethod.Business
             return ProgramLength() * Math.Log(ProgramVocaburary(), 2);
         }
 
+        public double ProgramDifficulty()
+        {
+            try
+            {
+                double x = (double)this.numberOfOperators/2;
+                double y = (double)this.totalOperands / this.numberOfOperands;
+                return x * y;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
         public double ProgramLevel()
         {
             try
